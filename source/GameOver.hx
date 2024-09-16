@@ -1,13 +1,16 @@
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
+import flixel.util.FlxColor;
 
 class GameOver extends FlxSubState
 {
 	var victtxt:FlxText = null;
+	var next_lvl:Int = 0;
 
-	public function new()
+	public function new(lvl_id:Int = 0)
 	{
+		next_lvl = lvl_id + 1;
 		super(0x52000000);
 	}
 
@@ -25,8 +28,21 @@ class GameOver extends FlxSubState
 		super.update(elapsed);
 		if (FlxG.keys.justPressed.ENTER)
 		{
-			close();
-			FlxG.resetState();
+			switch next_lvl
+			{
+				case 2:
+					FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function()
+					{
+						// Move to level 2
+						FlxG.switchState(new PlayState(2));
+					});
+				case 3:
+					FlxG.camera.fade(FlxColor.BLACK, 0.33, false, function()
+					{
+						// Go back to menu
+						FlxG.switchState(new MenuState());
+					});
+			}
 		}
 	}
 }

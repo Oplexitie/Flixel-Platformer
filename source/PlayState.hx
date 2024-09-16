@@ -15,6 +15,7 @@ class PlayState extends FlxState
 	var gems:FlxTypedGroup<Gem>;
 
 	// Level Related
+	var curr_level:Int = 0;
 	var tilemap:SetupTilemap;
 
 	// UI Related
@@ -26,6 +27,7 @@ class PlayState extends FlxState
 	public function new(lvl_id:Int = 0)
 	{
 		super();
+		curr_level = lvl_id;
 		tilemap = new SetupTilemap(lvl_id);
 	}
 
@@ -51,7 +53,6 @@ class PlayState extends FlxState
 		FlxG.camera.setScrollBoundsRect(16, 0, tilemap.lvl.width - 32, tilemap.lvl.height);
 		FlxG.camera.follow(player, PLATFORMER, 1);
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
-		tilemap.bg.scrollFactor.x = 0.3;
 
 		// Scoreboard Setup
 		scoreLabel = new FlxText(0, 0, FlxG.width, "Score: 0", 4);
@@ -94,7 +95,7 @@ class PlayState extends FlxState
 
 		if (score == gems.length)
 		{
-			gameover = new GameOver();
+			gameover = new GameOver(curr_level);
 			openSubState(gameover);
 		}
 	}
