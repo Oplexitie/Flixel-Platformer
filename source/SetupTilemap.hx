@@ -1,6 +1,5 @@
 package;
 
-import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import flixel.addons.editors.ogmo.FlxOgmo3Loader;
 import flixel.tile.FlxTilemap;
