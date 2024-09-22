@@ -8,8 +8,9 @@ import flixel.util.FlxTimer;
 class Player extends FlxSprite
 {
 	// Player Stats
-	var speed(default, never):Float = 100;
-	var gravity(default, never):Float = 800;
+	var SPEED(default, never):Float = 100;
+	var JUMP_STRENGTH(default, never):Float = 220;
+	var GRAVITY(default, never):Float = 800;
 
 	// Grounded State
 	var is_grounded:Bool = false;
@@ -18,15 +19,15 @@ class Player extends FlxSprite
 	// Variable Jump Height related
 	var jump_timer:FlxTimer;
 	var is_jumping:Bool = false; // Not the same as !is_grounded
-	var jump_length(default, never):Float = 0.2; // Length until holding jump doesn't work anymore
+	var JUMP_LENGTH(default, never):Float = 0.2; // Length until holding jump doesn't work anymore
 
 	// Coyote Time Related
 	var coyote_time:Float; // The amount of time left before you can't coyote jump anymore
-	var coyote_length(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
+	var COYOTE_LENGTH(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
 
 	// Jump Buffer Related (takes early jump press into account)
 	var jump_buffer_time:Float;
-	var jump_buffer_lenght(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
+	var JUMP_BUFFER_LENGTH(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
 
 	public function new(xPos:Float = 0, yPos:Float = 0)
 	{
@@ -48,9 +49,9 @@ class Player extends FlxSprite
 		animation.add("run", [0, 1, 2, 3, 4, 5], 7, false);
 
 		// Player physics setup
-		drag.x = speed * 8;
-		acceleration.y = gravity;
-		maxVelocity.set(100, gravity);
+		drag.x = SPEED * 8;
+		acceleration.y = GRAVITY;
+		maxVelocity.set(100, GRAVITY);
 
 		jump_timer = new FlxTimer();
 	}
@@ -83,15 +84,18 @@ class Player extends FlxSprite
 					animation.play("idle");
 				}
 			}
-			velocity.x = FlxG.keys.pressed.LEFT ? -speed : speed;
+			velocity.x = FlxG.keys.pressed.LEFT ? -SPEED : SPEED;
 		}
 	}
 
 	function handle_jump(elapsed:Float)
 	{
 		// Resets sprite scale from squash and stretch
-		scale.x = FlxMath.lerp(scale.x, 1, 0.2);
-		scale.y = FlxMath.lerp(scale.y, 1, 0.2);
+		if (!is_jumping)
+		{
+			scale.x = FlxMath.lerp(scale.x, 1, 0.2);
+			scale.y = FlxMath.lerp(scale.y, 1, 0.2);
+		}
 
 		// Checks if you're touching the floor
 		is_grounded = isTouching(FLOOR);
@@ -104,7 +108,7 @@ class Player extends FlxSprite
 				scale.set(1.25, 0.75);
 			}
 
-			coyote_time = coyote_length; // Reset coyote time when landing
+			coyote_time = COYOTE_LENGTH; // Reset coyote time when landing
 		}
 		else
 		{
@@ -123,9 +127,9 @@ class Player extends FlxSprite
 
 		was_grounded = is_grounded;
 
-		if (FlxG.keys.justPressed.UP)
+		if (is_up_pressed(true))
 		{
-			jump_buffer_time = jump_buffer_lenght;
+			jump_buffer_time = JUMP_BUFFER_LENGTH;
 		}
 
 		// Checks if you can jump, then allows it if you can
@@ -137,6 +141,7 @@ class Player extends FlxSprite
 			{
 				scale.set(0.75, 1.5);
 				is_jumping = true;
+				coyote_time = 0;
 			}
 		}
 
@@ -145,10 +150,10 @@ class Player extends FlxSprite
 		{
 			if (!jump_timer.active)
 			{
-				jump_timer.start(jump_length, end_jump, 1);
+				jump_timer.start(JUMP_LENGTH, end_jump, 1);
 			}
 
-			velocity.y = -220;
+			velocity.y = -JUMP_STRENGTH;
 
 			if (!is_up_pressed())
 			{

@@ -925,7 +925,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "180";
+	app.meta.h["build"] = "224";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "plateformer";
 	app.meta.h["name"] = "plateformer";
@@ -4853,21 +4853,21 @@ var GameOver = function(lvl_id) {
 	if(lvl_id == null) {
 		lvl_id = 0;
 	}
-	this.next_lvl = 0;
-	this.victtxt = null;
-	this.next_lvl = lvl_id + 1;
+	this.completed_lvl = 0;
+	this.vict_txt = null;
+	this.completed_lvl = lvl_id;
 	flixel_FlxSubState.call(this,1375731712);
 };
 $hxClasses["GameOver"] = GameOver;
 GameOver.__name__ = "GameOver";
 GameOver.__super__ = flixel_FlxSubState;
 GameOver.prototype = $extend(flixel_FlxSubState.prototype,{
-	victtxt: null
-	,next_lvl: null
+	vict_txt: null
+	,completed_lvl: null
 	,create: function() {
 		flixel_FlxSubState.prototype.create.call(this);
-		this.victtxt = new flixel_text_FlxText(0,0,0,"Game Over",16);
-		var _this = this.victtxt;
+		this.vict_txt = new flixel_text_FlxText(0,0,0,"Game Over",16);
+		var _this = this.vict_txt;
 		var axes = 17;
 		if(axes == null) {
 			axes = 17;
@@ -4878,7 +4878,7 @@ GameOver.prototype = $extend(flixel_FlxSubState.prototype,{
 		if(axes == 16 || axes == 17) {
 			_this.set_y((flixel_FlxG.height - _this.get_height()) / 2);
 		}
-		var this1 = this.victtxt.scrollFactor;
+		var this1 = this.vict_txt.scrollFactor;
 		var x = 0;
 		var y = 0;
 		if(y == null) {
@@ -4889,14 +4889,14 @@ GameOver.prototype = $extend(flixel_FlxSubState.prototype,{
 		}
 		this1.set_x(x);
 		this1.set_y(y);
-		this.add(this.victtxt);
+		this.add(this.vict_txt);
 	}
 	,update: function(elapsed) {
 		flixel_FlxSubState.prototype.update.call(this,elapsed);
 		var _this = flixel_FlxG.keys.justPressed;
 		if(_this.keyManager.checkStatusUnsafe(13,_this.status)) {
-			switch(this.next_lvl) {
-			case 2:
+			switch(this.completed_lvl) {
+			case 1:
 				flixel_FlxG.camera.fade(-16777216,0.33,false,function() {
 					var nextState = flixel_util_typeLimit_NextState.fromState(new PlayState(2));
 					var stateOnCall = flixel_FlxG.game._state;
@@ -4911,7 +4911,7 @@ GameOver.prototype = $extend(flixel_FlxSubState.prototype,{
 					}
 				});
 				break;
-			case 3:
+			case 2:
 				flixel_FlxG.camera.fade(-16777216,0.33,false,function() {
 					var nextState = flixel_util_typeLimit_NextState.fromState(new MenuState());
 					var stateOnCall = flixel_FlxG.game._state;
@@ -8929,14 +8929,15 @@ var Player = function(xPos,yPos) {
 	if(xPos == null) {
 		xPos = 0;
 	}
-	this.jump_buffer_lenght = 0.1;
-	this.coyote_length = 0.15;
-	this.jump_length = 0.2;
+	this.JUMP_BUFFER_LENGTH = 0.1;
+	this.COYOTE_LENGTH = 0.15;
+	this.JUMP_LENGTH = 0.2;
 	this.is_jumping = false;
 	this.was_grounded = false;
 	this.is_grounded = false;
-	this.gravity = 800;
-	this.speed = 100;
+	this.GRAVITY = 800;
+	this.JUMP_STRENGTH = 220;
+	this.SPEED = 100;
 	flixel_FlxSprite.call(this,xPos,yPos);
 	this.loadGraphic("assets/images/entities/player/playerspr.png",true,33,32);
 	this.set_width(15);
@@ -8969,11 +8970,11 @@ var Player = function(xPos,yPos) {
 	this.animation.add("jump",[10],6,false);
 	this.animation.add("down",[11],6,false);
 	this.animation.add("run",[0,1,2,3,4,5],7,false);
-	this.drag.set_x(this.speed * 8);
-	this.acceleration.set_y(this.gravity);
+	this.drag.set_x(this.SPEED * 8);
+	this.acceleration.set_y(this.GRAVITY);
 	var this1 = this.maxVelocity;
 	var x = 100;
-	var y = this.gravity;
+	var y = this.GRAVITY;
 	if(y == null) {
 		y = 0;
 	}
@@ -8988,17 +8989,18 @@ $hxClasses["Player"] = Player;
 Player.__name__ = "Player";
 Player.__super__ = flixel_FlxSprite;
 Player.prototype = $extend(flixel_FlxSprite.prototype,{
-	speed: null
-	,gravity: null
+	SPEED: null
+	,JUMP_STRENGTH: null
+	,GRAVITY: null
 	,is_grounded: null
 	,was_grounded: null
 	,jump_timer: null
 	,is_jumping: null
-	,jump_length: null
+	,JUMP_LENGTH: null
 	,coyote_time: null
-	,coyote_length: null
+	,COYOTE_LENGTH: null
 	,jump_buffer_time: null
-	,jump_buffer_lenght: null
+	,JUMP_BUFFER_LENGTH: null
 	,handle_movement: function() {
 		var left = flixel_FlxG.keys.checkKeyArrayState([37],1);
 		var right = flixel_FlxG.keys.checkKeyArrayState([39],1);
@@ -9017,14 +9019,16 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 				}
 			}
 			var _this = flixel_FlxG.keys.pressed;
-			this.velocity.set_x(_this.keyManager.checkStatusUnsafe(37,_this.status) ? -this.speed : this.speed);
+			this.velocity.set_x(_this.keyManager.checkStatusUnsafe(37,_this.status) ? -this.SPEED : this.SPEED);
 		}
 	}
 	,handle_jump: function(elapsed) {
-		var a = this.scale.x;
-		this.scale.set_x(a + 0.2 * (1 - a));
-		var a = this.scale.y;
-		this.scale.set_y(a + 0.2 * (1 - a));
+		if(!this.is_jumping) {
+			var a = this.scale.x;
+			this.scale.set_x(a + 0.2 * (1 - a));
+			var a = this.scale.y;
+			this.scale.set_y(a + 0.2 * (1 - a));
+		}
 		this.is_grounded = (this.touching & 4096) > 0;
 		if(this.is_grounded) {
 			if(!this.was_grounded) {
@@ -9040,7 +9044,7 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 				this1.set_x(x);
 				this1.set_y(y);
 			}
-			this.coyote_time = this.coyote_length;
+			this.coyote_time = this.COYOTE_LENGTH;
 		} else {
 			if(this.velocity.y <= 0) {
 				this.animation.play("jump");
@@ -9050,9 +9054,8 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 			this.coyote_time -= elapsed;
 		}
 		this.was_grounded = this.is_grounded;
-		var _this = flixel_FlxG.keys.justPressed;
-		if(_this.keyManager.checkStatusUnsafe(38,_this.status)) {
-			this.jump_buffer_time = this.jump_buffer_lenght;
+		if(this.is_up_pressed(true)) {
+			this.jump_buffer_time = this.JUMP_BUFFER_LENGTH;
 		}
 		if(this.jump_buffer_time >= 0) {
 			this.jump_buffer_time -= elapsed;
@@ -9069,13 +9072,14 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 				this1.set_x(x);
 				this1.set_y(y);
 				this.is_jumping = true;
+				this.coyote_time = 0;
 			}
 		}
 		if(this.is_jumping == true) {
 			if(!this.jump_timer.active) {
-				this.jump_timer.start(this.jump_length,$bind(this,this.end_jump),1);
+				this.jump_timer.start(this.JUMP_LENGTH,$bind(this,this.end_jump),1);
 			}
-			this.velocity.set_y(-220);
+			this.velocity.set_y(-this.JUMP_STRENGTH);
 			if(!this.is_up_pressed()) {
 				this.is_jumping = false;
 			}
@@ -80289,7 +80293,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 511038;
+	this.version = 668566;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
