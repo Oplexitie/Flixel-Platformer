@@ -9,25 +9,19 @@ class Player extends FlxSprite
 {
 	// Player Stats
 	var SPEED(default, never):Float = 100;
-	var JUMP_STRENGTH(default, never):Float = 220;
+	var JUMP_STRENGTH(default, never):Float = 220; // Y speed of the jump
 	var GRAVITY(default, never):Float = 800;
+	var JUMP_LENGTH(default, never):Float = 0.2; // Length until holding jump doesn't work anymore
+	var COYOTE_LENGTH(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
+	var JUMP_BUFFER_LENGTH(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
+	var SQUASH_SPEED(default, never):Int = 10; // Squash/stretch speed
 
-	// Grounded State
 	var is_grounded:Bool = false;
 	var was_grounded:Bool = false; // Grounded state from previous update cycle
-
-	// Variable Jump Height related
-	var jump_timer:FlxTimer;
 	var is_jumping:Bool = false; // Not the same as !is_grounded
-	var JUMP_LENGTH(default, never):Float = 0.2; // Length until holding jump doesn't work anymore
-
-	// Coyote Time Related
+	var jump_timer:FlxTimer; // Timer that takes care of the jump lenght
 	var coyote_time:Float; // The amount of time left before you can't coyote jump anymore
-	var COYOTE_LENGTH(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
-
-	// Jump Buffer Related (takes early jump press into account)
 	var jump_buffer_time:Float;
-	var JUMP_BUFFER_LENGTH(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
 
 	public function new(xPos:Float = 0, yPos:Float = 0)
 	{
@@ -90,13 +84,6 @@ class Player extends FlxSprite
 
 	function handle_jump(elapsed:Float)
 	{
-		// Resets sprite scale from squash and stretch
-		if (!is_jumping)
-		{
-			scale.x = FlxMath.lerp(scale.x, 1, 0.2);
-			scale.y = FlxMath.lerp(scale.y, 1, 0.2);
-		}
-
 		// Checks if you're touching the floor
 		is_grounded = isTouching(FLOOR);
 
@@ -105,7 +92,7 @@ class Player extends FlxSprite
 			// Applies the ground squash only if you just landed on the ground
 			if (!was_grounded)
 			{
-				scale.set(1.25, 0.75);
+				scale.set(1.35, 0.7);
 			}
 
 			coyote_time = COYOTE_LENGTH; // Reset coyote time when landing
@@ -125,7 +112,7 @@ class Player extends FlxSprite
 			coyote_time -= elapsed;
 		}
 
-		was_grounded = is_grounded;
+		was_grounded = is_grounded; // retrieves grounded state from last tick
 
 		if (is_up_pressed(true))
 		{
@@ -145,9 +132,9 @@ class Player extends FlxSprite
 			}
 		}
 
-		// Applies the jump physics but cancels them if you let go of the jump button
-		if (is_jumping == true)
+		if (is_jumping)
 		{
+			// Applies the jump physics but cancels them if you let go of the jump button, bump into a ceiling or the jump_timer runs out
 			if (!jump_timer.active)
 			{
 				jump_timer.start(JUMP_LENGTH, end_jump, 1);
@@ -155,10 +142,16 @@ class Player extends FlxSprite
 
 			velocity.y = -JUMP_STRENGTH;
 
-			if (!is_up_pressed())
+			if (!is_up_pressed() || isTouching(CEILING))
 			{
 				is_jumping = false;
 			}
+		}
+		else
+		{
+			// Resets sprite scale from squash and stretch
+			scale.x = FlxMath.lerp(scale.x, 1, SQUASH_SPEED * elapsed);
+			scale.y = FlxMath.lerp(scale.y, 1, SQUASH_SPEED * elapsed);
 		}
 	}
 
@@ -173,7 +166,7 @@ class Player extends FlxSprite
 		return upKeyPressed;
 	}
 
-	override function update(elapsed:Float)
+	override public function update(elapsed:Float)
 	{
 		handle_jump(elapsed);
 		handle_movement();

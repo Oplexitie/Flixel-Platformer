@@ -925,7 +925,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "224";
+	app.meta.h["build"] = "275";
 	app.meta.h["company"] = "HaxeFlixel";
 	app.meta.h["file"] = "plateformer";
 	app.meta.h["name"] = "plateformer";
@@ -8367,7 +8367,7 @@ ManifestResources.init = function(config) {
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$nokiafc22_$ttf);
 	openfl_text_Font.registerFont(_$_$ASSET_$_$OPENFL_$_$flixel_$fonts_$monsterrat_$ttf);
 	var bundle;
-	var data = "{\"name\":null,\"assets\":\"aoy4:pathy27:assets%2Fdata%2Flevel1.jsony4:sizei10136y4:typey4:TEXTy2:idR1y7:preloadtgoR0y27:assets%2Fdata%2Flevel2.jsonR2i8059R3R4R5R7R6tgoR0y29:assets%2Fdata%2Ftilemaps.ogmoR2i1620R3R4R5R8R6tgoR0y46:assets%2Fimages%2Fentities%2Fgoodies%2Fgem.pngR2i243R3y5:IMAGER5R9R6tgoR0y51:assets%2Fimages%2Fentities%2Fplayer%2Fplayerspr.pngR2i982R3R10R5R11R6tgoR0y46:assets%2Fimages%2Fenvironement%2Fbg_forest.pngR2i10032R3R10R5R12R6tgoR0y45:assets%2Fimages%2Fenvironement%2Fbg_sunny.pngR2i4026R3R10R5R13R6tgoR0y48:assets%2Fimages%2Fenvironement%2Fdeco_forest.pngR2i1002R3R10R5R14R6tgoR0y47:assets%2Fimages%2Fenvironement%2Fdeco_sunny.pngR2i2322R3R10R5R15R6tgoR0y51:assets%2Fimages%2Fenvironement%2Ftileset_forest.pngR2i2282R3R10R5R16R6tgoR0y50:assets%2Fimages%2Fenvironement%2Ftileset_sunny.pngR2i734R3R10R5R17R6tgoR0y45:assets%2Fimages%2Fmenu%2Fpress-enter-text.pngR2i213R3R10R5R18R6tgoR0y41:assets%2Fimages%2Fmenu%2Ftitle-screen.pngR2i372R3R10R5R19R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R20R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R21R6tgoR2i8220R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR23y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R22R5y28:flixel%2Fsounds%2Fflixel.mp3R24aR26y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i6840R3y5:SOUNDR5R25R24aR23R25hgoR2i33629R3R28R5R27R24aR26R27hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R29R30y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i277R3R10R5R35R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i505R3R10R5R36R6tgoR0y42:flixel%2Fimages%2Ftransitions%2Fcircle.pngR2i824R3R10R5R37R6tgoR0y53:flixel%2Fimages%2Ftransitions%2Fdiagonal_gradient.pngR2i3812R3R10R5R38R6tgoR0y43:flixel%2Fimages%2Ftransitions%2Fdiamond.pngR2i788R3R10R5R39R6tgoR0y42:flixel%2Fimages%2Ftransitions%2Fsquare.pngR2i383R3R10R5R40R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
+	var data = "{\"name\":null,\"assets\":\"aoy4:pathy27:assets%2Fdata%2Flevel1.jsony4:sizei10206y4:typey4:TEXTy2:idR1y7:preloadtgoR0y27:assets%2Fdata%2Flevel2.jsonR2i8148R3R4R5R7R6tgoR0y29:assets%2Fdata%2Ftilemaps.ogmoR2i1703R3R4R5R8R6tgoR0y46:assets%2Fimages%2Fentities%2Fgoodies%2Fgem.pngR2i243R3y5:IMAGER5R9R6tgoR0y51:assets%2Fimages%2Fentities%2Fplayer%2Fplayerspr.pngR2i982R3R10R5R11R6tgoR0y46:assets%2Fimages%2Fenvironement%2Fbg_forest.pngR2i10032R3R10R5R12R6tgoR0y45:assets%2Fimages%2Fenvironement%2Fbg_sunny.pngR2i4026R3R10R5R13R6tgoR0y48:assets%2Fimages%2Fenvironement%2Fdeco_forest.pngR2i1002R3R10R5R14R6tgoR0y47:assets%2Fimages%2Fenvironement%2Fdeco_sunny.pngR2i2322R3R10R5R15R6tgoR0y51:assets%2Fimages%2Fenvironement%2Ftileset_forest.pngR2i2282R3R10R5R16R6tgoR0y50:assets%2Fimages%2Fenvironement%2Ftileset_sunny.pngR2i734R3R10R5R17R6tgoR0y45:assets%2Fimages%2Fmenu%2Fpress-enter-text.pngR2i213R3R10R5R18R6tgoR0y41:assets%2Fimages%2Fmenu%2Ftitle-screen.pngR2i372R3R10R5R19R6tgoR0y36:assets%2Fmusic%2Fmusic-goes-here.txtR2zR3R4R5R20R6tgoR0y36:assets%2Fsounds%2Fsounds-go-here.txtR2zR3R4R5R21R6tgoR2i8220R3y5:MUSICR5y26:flixel%2Fsounds%2Fbeep.mp3y9:pathGroupaR23y26:flixel%2Fsounds%2Fbeep.ogghR6tgoR2i39706R3R22R5y28:flixel%2Fsounds%2Fflixel.mp3R24aR26y28:flixel%2Fsounds%2Fflixel.ogghR6tgoR2i6840R3y5:SOUNDR5R25R24aR23R25hgoR2i33629R3R28R5R27R24aR26R27hgoR2i15744R3y4:FONTy9:classNamey35:__ASSET__flixel_fonts_nokiafc22_ttfR5y30:flixel%2Ffonts%2Fnokiafc22.ttfR6tgoR2i29724R3R29R30y36:__ASSET__flixel_fonts_monsterrat_ttfR5y31:flixel%2Ffonts%2Fmonsterrat.ttfR6tgoR0y33:flixel%2Fimages%2Fui%2Fbutton.pngR2i277R3R10R5R35R6tgoR0y36:flixel%2Fimages%2Flogo%2Fdefault.pngR2i505R3R10R5R36R6tgoR0y42:flixel%2Fimages%2Ftransitions%2Fcircle.pngR2i824R3R10R5R37R6tgoR0y53:flixel%2Fimages%2Ftransitions%2Fdiagonal_gradient.pngR2i3812R3R10R5R38R6tgoR0y43:flixel%2Fimages%2Ftransitions%2Fdiamond.pngR2i788R3R10R5R39R6tgoR0y42:flixel%2Fimages%2Ftransitions%2Fsquare.pngR2i383R3R10R5R40R6tgh\",\"rootPath\":null,\"version\":2,\"libraryArgs\":[],\"libraryType\":null}";
 	var manifest = lime_utils_AssetManifest.parse(data,ManifestResources.rootPath);
 	var library = lime_utils_AssetLibrary.fromManifest(manifest);
 	lime_utils_Assets.registerLibrary("default",library);
@@ -8929,12 +8929,13 @@ var Player = function(xPos,yPos) {
 	if(xPos == null) {
 		xPos = 0;
 	}
-	this.JUMP_BUFFER_LENGTH = 0.1;
-	this.COYOTE_LENGTH = 0.15;
-	this.JUMP_LENGTH = 0.2;
 	this.is_jumping = false;
 	this.was_grounded = false;
 	this.is_grounded = false;
+	this.SQUASH_SPEED = 10;
+	this.JUMP_BUFFER_LENGTH = 0.1;
+	this.COYOTE_LENGTH = 0.15;
+	this.JUMP_LENGTH = 0.2;
 	this.GRAVITY = 800;
 	this.JUMP_STRENGTH = 220;
 	this.SPEED = 100;
@@ -8992,15 +8993,16 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 	SPEED: null
 	,JUMP_STRENGTH: null
 	,GRAVITY: null
+	,JUMP_LENGTH: null
+	,COYOTE_LENGTH: null
+	,JUMP_BUFFER_LENGTH: null
+	,SQUASH_SPEED: null
 	,is_grounded: null
 	,was_grounded: null
-	,jump_timer: null
 	,is_jumping: null
-	,JUMP_LENGTH: null
+	,jump_timer: null
 	,coyote_time: null
-	,COYOTE_LENGTH: null
 	,jump_buffer_time: null
-	,JUMP_BUFFER_LENGTH: null
 	,handle_movement: function() {
 		var left = flixel_FlxG.keys.checkKeyArrayState([37],1);
 		var right = flixel_FlxG.keys.checkKeyArrayState([39],1);
@@ -9023,18 +9025,12 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 		}
 	}
 	,handle_jump: function(elapsed) {
-		if(!this.is_jumping) {
-			var a = this.scale.x;
-			this.scale.set_x(a + 0.2 * (1 - a));
-			var a = this.scale.y;
-			this.scale.set_y(a + 0.2 * (1 - a));
-		}
 		this.is_grounded = (this.touching & 4096) > 0;
 		if(this.is_grounded) {
 			if(!this.was_grounded) {
 				var this1 = this.scale;
-				var x = 1.25;
-				var y = 0.75;
+				var x = 1.35;
+				var y = 0.7;
 				if(y == null) {
 					y = 0;
 				}
@@ -9075,14 +9071,19 @@ Player.prototype = $extend(flixel_FlxSprite.prototype,{
 				this.coyote_time = 0;
 			}
 		}
-		if(this.is_jumping == true) {
+		if(this.is_jumping) {
 			if(!this.jump_timer.active) {
 				this.jump_timer.start(this.JUMP_LENGTH,$bind(this,this.end_jump),1);
 			}
 			this.velocity.set_y(-this.JUMP_STRENGTH);
-			if(!this.is_up_pressed()) {
+			if(!this.is_up_pressed() || (this.touching & 256) > 0) {
 				this.is_jumping = false;
 			}
+		} else {
+			var a = this.scale.x;
+			this.scale.set_x(a + this.SQUASH_SPEED * elapsed * (1 - a));
+			var a = this.scale.y;
+			this.scale.set_y(a + this.SQUASH_SPEED * elapsed * (1 - a));
 		}
 	}
 	,end_jump: function(timer) {
@@ -9219,33 +9220,17 @@ var SetupTilemap = function(lvl_id) {
 	this.deco = new flixel_tile_FlxTilemap();
 	this.lvl = new flixel_tile_FlxTilemap();
 	this.data = new flixel_addons_editors_ogmo_FlxOgmo3Loader("assets/data/tilemaps.ogmo","assets/data/level" + lvl_id + ".json");
-	switch(lvl_id) {
-	case 1:
-		this.bg = new flixel_addons_display_FlxBackdrop("assets/images/environement/bg_sunny.png",1,0,0);
-		this.bg.scrollFactor.set_x(0.3);
-		this.deco = this.data.loadTilemap("assets/images/environement/deco_sunny.png","Decoration");
-		this.lvl = this.data.loadTilemap("assets/images/environement/tileset_sunny.png","Ground");
-		this.lvl.setTileProperties(7,256);
-		this.lvl.setTileProperties(11,256);
-		break;
-	case 2:
-		this.bg = new flixel_addons_display_FlxBackdrop("assets/images/environement/bg_forest.png",1,0,0);
-		this.bg.scrollFactor.set_x(0.2);
-		this.deco = this.data.loadTilemap("assets/images/environement/deco_forest.png","Decoration");
-		this.lvl = this.data.loadTilemap("assets/images/environement/tileset_forest.png","Ground");
-		var t = 24;
+	var lvl_type = this.data.getLevelValue("lvl_type");
+	this.bg = new flixel_addons_display_FlxBackdrop("assets/images/environement/bg_" + lvl_type + ".png",1,0,0);
+	this.bg.scrollFactor.set_x(this.data.getLevelValue("scroll_factor"));
+	this.deco = this.data.loadTilemap("assets/images/environement/deco_" + lvl_type + ".png","Decoration");
+	this.lvl = this.data.loadTilemap("assets/images/environement/tileset_" + lvl_type + ".png","Ground");
+	var plat_tiles = this.data.getLevelValue("plat_tiles");
+	var _g = 0;
+	while(_g < plat_tiles.length) {
+		var t = plat_tiles[_g];
+		++_g;
 		this.lvl.setTileProperties(t,256);
-		var t = 32;
-		this.lvl.setTileProperties(t,256);
-		var t = 33;
-		this.lvl.setTileProperties(t,256);
-		var t = 34;
-		this.lvl.setTileProperties(t,256);
-		var t = 35;
-		this.lvl.setTileProperties(t,256);
-		var t = 36;
-		this.lvl.setTileProperties(t,256);
-		break;
 	}
 };
 $hxClasses["SetupTilemap"] = SetupTilemap;
@@ -80293,7 +80278,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 668566;
+	this.version = 671350;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

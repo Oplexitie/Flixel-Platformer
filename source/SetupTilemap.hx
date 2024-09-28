@@ -23,30 +23,21 @@ class SetupTilemap
 		// Load Tilemap from .json file and gets info from ogmo file
 		data = new FlxOgmo3Loader(AssetPaths.tilemaps__ogmo, "assets/data/level" + lvl_id + ".json");
 
-		switch lvl_id
+		var lvl_type:String = data.getLevelValue("lvl_type");
+
+		// Load Looping Background
+		bg = new FlxBackdrop("assets/images/environement/bg_" + lvl_type + ".png", X, 0, 0);
+		bg.scrollFactor.x = data.getLevelValue("scroll_factor");
+
+		// Load the Tilesets (carefull of layer names)
+		deco = data.loadTilemap("assets/images/environement/deco_" + lvl_type + ".png", "Decoration");
+		lvl = data.loadTilemap("assets/images/environement/tileset_" + lvl_type + ".png", "Ground");
+
+		// Setup jump through platforms
+		var plat_tiles:Array<Int> = data.getLevelValue("plat_tiles");
+		for (t in plat_tiles)
 		{
-			case 1:
-				// Load Looping Background
-				bg = new FlxBackdrop(AssetPaths.bg_sunny__png, X, 0, 0);
-				bg.scrollFactor.x = 0.3;
-				// Load the Tilesets (carefull of layer names)
-				deco = data.loadTilemap(AssetPaths.deco_sunny__png, "Decoration");
-				lvl = data.loadTilemap(AssetPaths.tileset_sunny__png, "Ground");
-				// Setup jump through platforms
-				lvl.setTileProperties(7, CEILING);
-				lvl.setTileProperties(11, CEILING);
-			case 2:
-				// Load Looping Background
-				bg = new FlxBackdrop(AssetPaths.bg_forest__png, X, 0, 0);
-				bg.scrollFactor.x = 0.2;
-				// Load the Tilesets (carefull of layer names)
-				deco = data.loadTilemap(AssetPaths.deco_forest__png, "Decoration");
-				lvl = data.loadTilemap(AssetPaths.tileset_forest__png, "Ground");
-				// Setup jump through platforms
-				for (t in [24, 32, 33, 34, 35, 36])
-				{
-					lvl.setTileProperties(t, CEILING);
-				}
+			lvl.setTileProperties(t, CEILING);
 		}
 	}
 }
