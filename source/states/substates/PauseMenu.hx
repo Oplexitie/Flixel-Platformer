@@ -1,3 +1,5 @@
+package states.substates;
+
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;

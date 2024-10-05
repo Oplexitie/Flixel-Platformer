@@ -1,4 +1,4 @@
-package;
+package states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -7,7 +7,7 @@ import flixel.util.FlxColor;
 
 class MenuState extends FlxState
 {
-	var back:FlxSprite = null;
+	var bg:FlxSprite = null;
 	var title:FlxSprite = null;
 	var pressenter:FlxSprite = null;
 	var counter:Int = 0;
@@ -18,13 +18,11 @@ class MenuState extends FlxState
 		FlxG.camera.fade(FlxColor.BLACK, 0.33, true);
 		bgColor = 0xFF47F3FF;
 
-		// Setup Menu Background
-		back = new FlxSprite(0, 0, AssetPaths.bg_sunny__png);
-		add(back);
-
-		// Setup Title sprite
+		// Setup Menu Backgroun and Titlecard sprite
+		bg = new FlxSprite(0, 0, AssetPaths.bg_sunny__png);
 		title = new FlxSprite(0, 0, AssetPaths.title_screen__png);
 		title.setPosition(FlxG.width / 2 - title.width / 2, FlxG.height / 2 - title.height);
+		add(bg);
 		add(title);
 
 		// Setup 'Press Enter' sprite

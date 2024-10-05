@@ -1,7 +1,11 @@
+package states.substates;
+
 import flixel.FlxG;
 import flixel.FlxSubState;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import states.MenuState;
+import states.PlayState;
 
 class GameOver extends FlxSubState
 {

@@ -1,9 +1,9 @@
-package;
+package entities;
 
-import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.util.FlxTimer;
+import utils.InputKeys;
 
 class Player extends FlxSprite
 {
@@ -15,6 +15,7 @@ class Player extends FlxSprite
 	var COYOTE_LENGTH(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
 	var JUMP_BUFFER_LENGTH(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
 	var SQUASH_SPEED(default, never):Int = 10; // Squash/stretch speed
+	var FALLOFF_LENGTH(default, never):Float = 0.1; // Time where you fall through platforms
 
 	var is_grounded:Bool = false;
 	var was_grounded:Bool = false; // Grounded state from previous update cycle
@@ -22,6 +23,9 @@ class Player extends FlxSprite
 	var jump_timer:FlxTimer; // Timer that takes care of the jump lenght
 	var coyote_time:Float; // The amount of time left before you can't coyote jump anymore
 	var jump_buffer_time:Float;
+	var falloff_timer:Float = 0; // Amount time left before you collide with platforms again
+
+	public var is_falling_off:Bool = false; // Allows to check if player should fall off platform
 
 	public function new(xPos:Float = 0, yPos:Float = 0)
 	{
@@ -53,8 +57,8 @@ class Player extends FlxSprite
 	function handle_movement()
 	{
 		// Handles Inputs
-		var left:Bool = FlxG.keys.anyPressed([LEFT]);
-		var right:Bool = FlxG.keys.anyPressed([RIGHT]);
+		var left:Bool = InputKeys.is_left_pressed();
+		var right:Bool = InputKeys.is_right_pressed();
 
 		// Takes care of movement, facing direction and animations
 		if (right && left || !right && !left)
@@ -66,7 +70,7 @@ class Player extends FlxSprite
 		}
 		else if (right || left)
 		{
-			facing = FlxG.keys.pressed.LEFT ? LEFT : RIGHT;
+			facing = left ? LEFT : RIGHT;
 			if (is_grounded)
 			{
 				if (velocity.x != 0)
@@ -78,7 +82,7 @@ class Player extends FlxSprite
 					animation.play("idle");
 				}
 			}
-			velocity.x = FlxG.keys.pressed.LEFT ? -SPEED : SPEED;
+			velocity.x = left ? -SPEED : SPEED;
 		}
 	}
 
@@ -112,9 +116,9 @@ class Player extends FlxSprite
 			coyote_time -= elapsed;
 		}
 
-		was_grounded = is_grounded; // retrieves grounded state from last tick
+		was_grounded = is_grounded; // Retrieves grounded state from last tick
 
-		if (is_up_pressed(true))
+		if (InputKeys.is_up_pressed(true))
 		{
 			jump_buffer_time = JUMP_BUFFER_LENGTH;
 		}
@@ -134,7 +138,7 @@ class Player extends FlxSprite
 
 		if (is_jumping)
 		{
-			// Applies the jump physics but cancels them if you let go of the jump button, bump into a ceiling or the jump_timer runs out
+			// Applies the jump physics but cancels them if you let go of the jump button or bump into a ceiling or the jump_timer runs out
 			if (!jump_timer.active)
 			{
 				jump_timer.start(JUMP_LENGTH, end_jump, 1);
@@ -142,7 +146,7 @@ class Player extends FlxSprite
 
 			velocity.y = -JUMP_STRENGTH;
 
-			if (!is_up_pressed() || isTouching(CEILING))
+			if (!InputKeys.is_up_pressed() || isTouching(CEILING))
 			{
 				is_jumping = false;
 			}
@@ -160,15 +164,37 @@ class Player extends FlxSprite
 		is_jumping = false;
 	}
 
-	function is_up_pressed(?usejustpressed:Bool = false):Bool
+	function handle_fall_off(elapsed:Float)
 	{
-		var upKeyPressed = usejustpressed ? FlxG.keys.anyJustPressed([UP]) : FlxG.keys.anyPressed([UP]);
-		return upKeyPressed;
+		var is_down_pressed:Bool = InputKeys.is_down_pressed();
+
+		if (is_down_pressed || falloff_timer > 0)
+		{
+			// Prevents player from holding key then walking onto a plateform and falling off
+			if (is_grounded)
+			{
+				if (is_down_pressed)
+				{
+					falloff_timer = FALLOFF_LENGTH;
+				}
+				else
+				{
+					falloff_timer = 0;
+				}
+			}
+			falloff_timer -= elapsed;
+			is_falling_off = true; // Play will fall off platforms
+		}
+		else
+		{
+			is_falling_off = false; // Play will stay on platforms
+		}
 	}
 
 	override public function update(elapsed:Float)
 	{
 		handle_jump(elapsed);
+		handle_fall_off(elapsed);
 		handle_movement();
 
 		super.update(elapsed);
