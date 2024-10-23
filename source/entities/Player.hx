@@ -8,14 +8,14 @@ import utils.InputKeys;
 class Player extends FlxSprite
 {
 	// Player Stats
-	var SPEED(default, never):Float = 100;
-	var JUMP_STRENGTH(default, never):Float = 220; // Y speed of the jump
-	var GRAVITY(default, never):Float = 800;
-	var JUMP_LENGTH(default, never):Float = 0.2; // Length until holding jump doesn't work anymore
-	var COYOTE_LENGTH(default, never):Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
-	var JUMP_BUFFER_LENGTH(default, never):Float = 0.1; // Time before landing where a jump press is still taken into account
-	var SQUASH_SPEED(default, never):Int = 10; // Squash/stretch speed
-	var FALLOFF_LENGTH(default, never):Float = 0.1; // Time where you fall through platforms
+	final SPEED:Float = 100;
+	final JUMP_STRENGTH:Float = 220; // Y speed of the jump
+	final GRAVITY:Float = 800;
+	final JUMP_LENGTH:Float = 0.2; // Length until holding jump doesn't work anymore
+	final COYOTE_LENGTH:Float = 0.15; // The amount of time where you'll still be able to jump after falling off a ledge
+	final JUMP_BUFFER_LENGTH:Float = 0.1; // Time before landing where a jump press is still taken into account
+	final SQUASH_SPEED:Int = 10; // Squash/stretch speed
+	final FALLOFF_LENGTH:Float = 0.1; // Time where you fall through platforms
 
 	var is_grounded:Bool = false;
 	var was_grounded:Bool = false; // Grounded state from previous update cycle
